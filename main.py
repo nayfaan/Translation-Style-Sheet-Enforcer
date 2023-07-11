@@ -14,6 +14,21 @@ def run():
             if (row[0] and row[1]):
                 ss.append(row)
                 
+                # Name split
+                split_test = re.sub("[\(（].*?[\)）]","",row[0])
+                if re.search("・", split_test):
+                    jp_split = re.split("・", split_test)
+                    en_split = re.split("\s", row[1])
+                    
+                    ss.append([jp_split[0],en_split[0]])
+                    ss.append([jp_split[1],en_split[1]])
+                    
+                # Brackets
+                bracket_check = re.search("(.*?)[\(（](.*?)[\)）]",row[0])
+                if bracket_check:
+                    ss.append([bracket_check[0],row[1]])
+                    ss.append([bracket_check[1],row[1]])    
+                
     ss = sorted(ss, key=itemgetter(0))
     ss.reverse()
                 
